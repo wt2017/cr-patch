@@ -1,0 +1,540 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: rannicnodeconfigs.rannic.nokia.com
+spec:
+  group: rannic.nokia.com
+  names:
+    kind: RanNicNodeConfig
+    listKind: RanNicNodeConfigList
+    plural: rannicnodeconfigs
+    shortNames:
+    - rnnc
+    singular: rannicnodeconfig
+  scope: Namespaced
+  versions:
+  - name: v1beta2
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: The spec parameters definition of rannicnodeconfig CR
+            properties:
+              ranNicDevices:
+                items:
+                  properties:
+                    image:
+                      description: RAN-NIC L1 SW image configuration, including image
+                        address and pull secret
+                      properties:
+                        imageAddr:
+                          description: 'The RAN NIC SW container image address. One
+                            example of OCP local registry: <image_registry>/<vdu_namespace>/<rannic_sw_image_name>:<rannic_sw_image_tag>'
+                          type: string
+                        imagePullSecret:
+                          description: |-
+                            The Kubernetes secret name that stores credential authentication of target image registry, only kubernetes.io/dockercfg and kubernetes.io/dockerconfigjson types secret supported.
+                            The type of kubernetes.io/dockerconfigjson is recommended because of kubernetes.io/dockercfg is deprecated which won't be supported in a future version.
+                            RAN NIC SW controller will pull target image without authentication if this field configured as empty string
+                          type: string
+                      required:
+                      - imageAddr
+                      - imagePullSecret
+                      type: object
+                    pciAddress:
+                      description: RAN NIC HW PCI information
+                      type: string
+                    ranNicConfigName:
+                      description: Associated rannicconfig CR name
+                      type: string
+                    ranNicConfigNamespace:
+                      description: Associated rannicconfig CR namespace
+                      type: string
+                    ranNicDevPoolSuffix:
+                      description: Suffix of RAN NIC device pool name
+                      type: string
+                  type: object
+                type: array
+            type: object
+          status:
+            properties:
+              heartbeat:
+                type: string
+              inventories:
+                items:
+                  properties:
+                    bootStatus:
+                      description: The boot status of RAN NIC
+                      properties:
+                        statusID:
+                          description: The boot status identification of RAN NIC
+                          type: string
+                        statusInfo:
+                          description: Readable message about RAN NIC boot status,
+                            which is a supplement to statusID
+                          type: string
+                      required:
+                      - statusID
+                      - statusInfo
+                      type: object
+                    configMessage:
+                      description: Readable message about RAN NIC operation, which
+                        is a supplement to configStatus
+                      type: string
+                    configStatus:
+                      description: RAN NIC configuration status,original is Initial
+                        and will be updated during rannicnodeconfig CR updating phase
+                      enum:
+                      - Initial
+                      - Activating
+                      - ActivateFailed
+                      - ActivateSucceeded
+                      - Deactivating
+                      - DeactivateFailed
+                      type: string
+                    identity:
+                      description: RAN NIC HW PCI information
+                      properties:
+                        deviceID:
+                          type: string
+                        deviceType:
+                          type: string
+                        pciAddress:
+                          type: string
+                        serialNumber:
+                          type: string
+                        vendorID:
+                          type: string
+                      type: object
+                    image:
+                      description: Current loaded RAN NIC software image, which is
+                        updated when RAN NIC activated successfully
+                      properties:
+                        imageAddr:
+                          description: 'The RAN NIC SW container image address. One
+                            example of OCP local registry: <image_registry>/<vdu_namespace>/<rannic_sw_image_name>:<rannic_sw_image_tag>'
+                          type: string
+                        imagePullSecret:
+                          description: |-
+                            The Kubernetes secret name that stores credential authentication of target image registry, only kubernetes.io/dockercfg and kubernetes.io/dockerconfigjson types secret supported.
+                            The type of kubernetes.io/dockerconfigjson is recommended because of kubernetes.io/dockercfg is deprecated which won't be supported in a future version.
+                            RAN NIC SW controller will pull target image without authentication if this field configured as empty string
+                          type: string
+                      required:
+                      - imageAddr
+                      - imagePullSecret
+                      type: object
+                  required:
+                  - configStatus
+                  - identity
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - name: v1beta3
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: The spec parameters definition of rannicnodeconfig CR.
+            properties:
+              ranNicDevices:
+                items:
+                  properties:
+                    image:
+                      description: RAN-NIC L1 SW image configuration, including image
+                        address and pull secret.
+                      properties:
+                        imageAddr:
+                          description: 'The RAN NIC SW container image address. One
+                            example of OCP local registry: <image_registry>/<vdu_namespace>/<rannic_sw_image_name>:<rannic_sw_image_tag>.'
+                          type: string
+                        imagePullSecret:
+                          description: |-
+                            The Kubernetes secret name that stores credential authentication of target image registry, only kubernetes.io/dockercfg and kubernetes.io/dockerconfigjson types secret supported.
+                            The type of kubernetes.io/dockerconfigjson is recommended because of kubernetes.io/dockercfg is deprecated which won't be supported in a future version.
+                            RAN NIC SW controller will pull target image without authentication if this field configured as empty string.
+                          type: string
+                      required:
+                      - imageAddr
+                      - imagePullSecret
+                      type: object
+                    pciAddress:
+                      description: RAN NIC HW PCI information.
+                      type: string
+                    ranNicConfigName:
+                      description: Associated rannicconfig CR name.
+                      type: string
+                    ranNicConfigNamespace:
+                      description: Associated rannicconfig CR namespace.
+                      type: string
+                    ranNicDevPoolSuffix:
+                      description: Suffix of RAN NIC device pool name.
+                      type: string
+                    ranNicEmbeddedDeviceFirmwareUpdate:
+                      default: false
+                      description: The flag indicates whether the firmware updating
+                        of RAN NIC embedded device is enabled. Default is false.
+                      type: boolean
+                  type: object
+                type: array
+            type: object
+          status:
+            properties:
+              heartbeat:
+                type: string
+              inventories:
+                items:
+                  properties:
+                    availabilityMessage:
+                      description: Readable message about RAN NIC HW availability
+                        status, which is a supplement to availabilityStatus.
+                      type: string
+                    availabilityStatus:
+                      default: Available
+                      description: RAN NIC HW availability status. The Available status
+                        means this RAN NIC without HW and SW issues, Unavailable status
+                        means RAN NIC can't be used and manual recovery is needed.
+                      enum:
+                      - Available
+                      - Unavailable
+                      type: string
+                    bootStatus:
+                      description: The boot status of RAN NIC.
+                      properties:
+                        statusID:
+                          description: The boot status identification of RAN NIC before
+                            OS loaded.
+                          type: string
+                        statusInfo:
+                          description: Readable message about RAN NIC boot status,
+                            which is a supplement to statusID.
+                          type: string
+                      required:
+                      - statusID
+                      - statusInfo
+                      type: object
+                    configMessage:
+                      description: Readable message about RAN NIC configuration, which
+                        is a supplement to configStatus.
+                      type: string
+                    configStatus:
+                      description: RAN NIC configuration status, default is Initial
+                        which will be updated during RAN NIC activating and deactivating
+                        phases.
+                      enum:
+                      - Initial
+                      - Activating
+                      - ActivateFailed
+                      - ActivateSucceeded
+                      - Deactivating
+                      - DeactivateFailed
+                      type: string
+                    embeddedDeviceFirmwareUpdateStatus:
+                      description: The RAN NIC embedded devices FW updating status,
+                        which will be updated when embedded device FW updating enabled.
+                      properties:
+                        reTimerUpdateCount:
+                          default: 0
+                          description: The Re-Timer FW patch updating count, 0 means
+                            no Re-Timer FW patch updating or updated successfully,
+                            non-zero means Re-Timer FW updating is ongoing and total
+                            retried times till now.
+                          type: integer
+                        smuUpdateCount:
+                          default: 0
+                          description: The SMU FW updating count. The zero means no
+                            SMU FW updating needed or updated successfully, non-zero
+                            means SMU FW updating is ongoing and total retried times
+                            till now.
+                          type: integer
+                        updateProcessStart:
+                          default: false
+                          description: The flag indicates whether FW update of embedded
+                            device is started.
+                          type: boolean
+                      required:
+                      - reTimerUpdateCount
+                      - smuUpdateCount
+                      - updateProcessStart
+                      type: object
+                    identity:
+                      description: RAN NIC HW identity information.
+                      properties:
+                        deviceID:
+                          type: string
+                        deviceType:
+                          type: string
+                        pciAddress:
+                          type: string
+                        serialNumber:
+                          type: string
+                        vendorID:
+                          type: string
+                      type: object
+                    image:
+                      description: Current loaded RAN NIC SW image, which will be
+                        updated when RAN NIC activated successfully.
+                      properties:
+                        imageAddr:
+                          description: 'The RAN NIC SW container image address. One
+                            example of OCP local registry: <image_registry>/<vdu_namespace>/<rannic_sw_image_name>:<rannic_sw_image_tag>.'
+                          type: string
+                        imagePullSecret:
+                          description: |-
+                            The Kubernetes secret name that stores credential authentication of target image registry, only kubernetes.io/dockercfg and kubernetes.io/dockerconfigjson types secret supported.
+                            The type of kubernetes.io/dockerconfigjson is recommended because of kubernetes.io/dockercfg is deprecated which won't be supported in a future version.
+                            RAN NIC SW controller will pull target image without authentication if this field configured as empty string.
+                          type: string
+                      required:
+                      - imageAddr
+                      - imagePullSecret
+                      type: object
+                  required:
+                  - configStatus
+                  - identity
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - name: v1beta4
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: The spec parameters definition of rannicnodeconfig CR.
+            properties:
+              ranNicDevices:
+                items:
+                  properties:
+                    image:
+                      description: RAN-NIC L1 SW image configuration, including image
+                        address and pull secret.
+                      properties:
+                        imageAddr:
+                          description: 'The RAN NIC SW container image address. One
+                            example of OCP local registry: <image_registry>/<vdu_namespace>/<rannic_sw_image_name>:<rannic_sw_image_tag>.'
+                          type: string
+                        imagePullSecret:
+                          description: |-
+                            The Kubernetes secret name that stores credential authentication of target image registry, only kubernetes.io/dockercfg and kubernetes.io/dockerconfigjson types secret supported.
+                            The type of kubernetes.io/dockerconfigjson is recommended because of kubernetes.io/dockercfg is deprecated which won't be supported in a future version.
+                            RAN NIC SW controller will pull target image without authentication if this field configured as empty string.
+                          type: string
+                      required:
+                      - imageAddr
+                      - imagePullSecret
+                      type: object
+                    pciAddress:
+                      description: RAN NIC HW PCI information.
+                      type: string
+                    ranNicAsEthernetNic:
+                      default: false
+                      description: Indicate if RAN NIC works as ethernet NIC
+                      type: boolean
+                    ranNicConfigName:
+                      description: Associated rannicconfig CR name.
+                      type: string
+                    ranNicConfigNamespace:
+                      description: Associated rannicconfig CR namespace.
+                      type: string
+                    ranNicDevPoolSuffix:
+                      description: Suffix of RAN NIC device pool name.
+                      type: string
+                    ranNicEmbeddedDeviceFirmwareUpdate:
+                      default: false
+                      description: The flag indicates whether the firmware updating
+                        of RAN NIC embedded device is enabled. Default is false.
+                      type: boolean
+                    serialNumber:
+                      description: RAN NIC HW Serial Number information.
+                      type: string
+                  type: object
+                type: array
+            type: object
+          status:
+            properties:
+              heartbeat:
+                type: string
+              inventories:
+                items:
+                  properties:
+                    availabilityMessage:
+                      description: Readable message about RAN NIC HW availability
+                        status, which is a supplement to availabilityStatus.
+                      type: string
+                    availabilityStatus:
+                      default: Available
+                      description: RAN NIC HW availability status. The Available status
+                        means this RAN NIC without HW and SW issues, Unavailable status
+                        means RAN NIC can't be used and manual recovery is needed.
+                      enum:
+                      - Available
+                      - Unavailable
+                      type: string
+                    bootStatus:
+                      description: The boot status of RAN NIC.
+                      properties:
+                        statusID:
+                          description: The boot status identification of RAN NIC before
+                            OS loaded.
+                          type: string
+                        statusInfo:
+                          description: Readable message about RAN NIC boot status,
+                            which is a supplement to statusID.
+                          type: string
+                      required:
+                      - statusID
+                      - statusInfo
+                      type: object
+                    configMessage:
+                      description: Readable message about RAN NIC configuration, which
+                        is a supplement to configStatus.
+                      type: string
+                    configStatus:
+                      description: RAN NIC configuration status, default is Initial
+                        which will be updated during RAN NIC activating, deactivating
+                        and diagnosing phases.
+                      enum:
+                      - Initial
+                      - Activating
+                      - ActivateFailed
+                      - ActivateSucceeded
+                      - Deactivating
+                      - DeactivateFailed
+                      - Diagnosing
+                      - DiagnoseFailed
+                      type: string
+                    embeddedDeviceFirmwareUpdateStatus:
+                      description: The RAN NIC embedded devices FW updating status,
+                        which will be updated when embedded device FW updating enabled.
+                      properties:
+                        reTimerUpdateCount:
+                          default: 0
+                          description: The Re-Timer FW patch updating count, 0 means
+                            no Re-Timer FW patch updating or updated successfully,
+                            non-zero means Re-Timer FW updating is ongoing and total
+                            retried times till now.
+                          type: integer
+                        smuUpdateCount:
+                          default: 0
+                          description: The SMU FW updating count. The zero means no
+                            SMU FW updating needed or updated successfully, non-zero
+                            means SMU FW updating is ongoing and total retried times
+                            till now.
+                          type: integer
+                        updateProcessStart:
+                          default: false
+                          description: The flag indicates whether FW update of embedded
+                            device is started.
+                          type: boolean
+                      required:
+                      - reTimerUpdateCount
+                      - smuUpdateCount
+                      - updateProcessStart
+                      type: object
+                    identity:
+                      description: RAN NIC HW identity information.
+                      properties:
+                        deviceID:
+                          type: string
+                        deviceType:
+                          type: string
+                        pciAddress:
+                          type: string
+                        serialNumber:
+                          type: string
+                        vendorID:
+                          type: string
+                      type: object
+                    image:
+                      description: Current loaded RAN NIC SW image, which will be
+                        updated when RAN NIC activated successfully.
+                      properties:
+                        imageAddr:
+                          description: 'The RAN NIC SW container image address. One
+                            example of OCP local registry: <image_registry>/<vdu_namespace>/<rannic_sw_image_name>:<rannic_sw_image_tag>.'
+                          type: string
+                        imagePullSecret:
+                          description: |-
+                            The Kubernetes secret name that stores credential authentication of target image registry, only kubernetes.io/dockercfg and kubernetes.io/dockerconfigjson types secret supported.
+                            The type of kubernetes.io/dockerconfigjson is recommended because of kubernetes.io/dockercfg is deprecated which won't be supported in a future version.
+                            RAN NIC SW controller will pull target image without authentication if this field configured as empty string.
+                          type: string
+                      required:
+                      - imageAddr
+                      - imagePullSecret
+                      type: object
+                  required:
+                  - configStatus
+                  - identity
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

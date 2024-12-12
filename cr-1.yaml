@@ -1,0 +1,19 @@
+apiVersion: rannic.nokia.com/v1beta4
+kind: RanNicNodeConfig
+metadata:
+  name: master0.hztt-ecp-10-70-30-234.ocp.hz.nsn-rdnet.net
+  namespace: ran-nic-sw-controller
+  uid: 322daa38-0f80-4df4-b8b7-9c5dfb478681
+  resourceVersion: "35238935"  # Ensure this is a string
+  generation: 1
+  creationTimestamp: "2024-12-11T03:11:23Z"
+  managedFields:
+    - manager: agent
+      operation: Update
+      apiVersion: rannic.nokia.com/v1beta4
+      time: "2024-12-11T03:11:23Z"
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec: {}
+spec: {}
+status: {}

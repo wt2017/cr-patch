@@ -1,0 +1,28 @@
+[{
+    "op": "add",
+    "path": "/status/inventories",
+    "value": [{
+        "identity": {
+            "deviceID": "bc00",
+            "vendorID": "177d",
+            "pciAddress": "0000:b3:00.0",
+            "serialNumber": "unknown",
+            "deviceType": "RINLINE2"
+        },
+        "configStatus": "Initial",
+        "image": {
+            "imageAddr": "",
+            "imagePullSecret": ""
+        },
+        "bootStatus": {
+            "statusID": "",
+            "statusInfo": ""
+        },
+        "availabilityStatus": "Available",
+        "embeddedDeviceFirmwareUpdateStatus": {
+            "updateProcessStart": false,
+            "smuUpdateCount": 0,
+            "reTimerUpdateCount": 0
+        }
+    }]
+}]
